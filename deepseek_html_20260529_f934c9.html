@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🔥 PORTAL TRAP · MYSTERY GIFT 🔥</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.pexels.com/photos/1141822/pexels-photo-1141822.jpeg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center 30%;
+            filter: brightness(0.45) contrast(1.1) saturate(1.2);
+            z-index: -2;
+        }
+
+        body::after {
+            content: "🎀🐱 911 GTR • HELLO KITTY EDITION 🏁🎀";
+            position: fixed;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            padding: 6px;
+            color: #ffb7c5;
+            font-family: monospace;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .game-container {
+            width: 92%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: rgba(18, 18, 28, 0.86);
+            backdrop-filter: blur(16px);
+            border-radius: 56px;
+            border: 1px solid rgba(255, 120, 160, 0.5);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,240,0.08);
+            padding: 28px 22px 38px;
+            margin: 20px auto;
+            transition: all 0.2s;
+            text-align: center;
+            color: #f0eef7;
+            position: relative;
+            z-index: 10;
+            scrollbar-width: thin;
+        }
+
+        .game-container::-webkit-scrollbar {
+            width: 5px;
+            background: #2c2c3a;
+            border-radius: 10px;
+        }
+        .game-container::-webkit-scrollbar-thumb {
+            background: #ff6b8b;
+            border-radius: 10px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        h1 { font-size: 1.9rem; background: linear-gradient(135deg, #FFB7C5, #FF6F91); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 10px; }
+        h2 { font-size: 1.6rem; margin-bottom: 15px; }
+
+        .btn {
+            background: #2c2c3a;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 60px;
+            cursor: pointer;
+            color: white;
+            transition: 0.08s linear;
+            margin: 8px 10px;
+            box-shadow: 0 4px 0 #121016;
+            font-family: inherit;
+        }
+        .btn-primary { background: #ff6b8b; box-shadow: 0 4px 0 #a13a53; }
+        .btn-no { background: #3d2c2c; box-shadow: 0 4px 0 #1f1313; }
+        .btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #121016; }
+
+        .arrow-yes {
+            display: inline-block;
+            margin-top: 20px;
+            animation: bounceArrow 0.8s infinite;
+            font-size: 2.4rem;
+            filter: drop-shadow(0 0 4px red);
+        }
+        @keyframes bounceArrow {
+            0%,100%{ transform: translateX(-5px);}
+            50%{ transform: translateX(15px);}
+        }
+        .circle-yes {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #ff3366;
+            background: rgba(255,51,102,0.2);
+            box-shadow: 0 0 12px #ff3366;
+            margin-left: 10px;
+            vertical-align: middle;
+            animation: pulseRed 1s infinite;
+        }
+        @keyframes pulseRed {
+            0% { transform: scale(1); opacity: 0.7;}
+            100% { transform: scale(1.25); opacity: 1;}
+        }
+
+        .keypad-container {
+            background: rgba(0,0,0,0.5);
+            border-radius: 48px;
+            padding: 20px 12px;
+            margin-top: 20px;
+        }
+        .passcode-dots {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0 20px;
+        }
+        .dot {
+            width: 22px;
+            height: 22px;
+            background: #ffb7c5;
+            border-radius: 50%;
+            opacity: 0.5;
+            transition: 0.1s;
+        }
+        .dot.filled {
+            background: #ff6b8b;
+            opacity: 1;
+            box-shadow: 0 0 6px #ff6b8b;
+        }
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+        .key-btn {
+            background: #1e1e2e;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            padding: 14px 0;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.05s linear;
+            font-family: monospace;
+            box-shadow: 0 2px 6px black;
+        }
+        .key-btn:active { transform: scale(0.96); background: #ff6b8b; }
+        .key-special { background: #2c2c44; font-size: 1.2rem; }
+        .pass-error { color: #ff9494; margin-top: 16px; font-weight: 500; }
+        .close-btn {
+            background: #aa2e4e;
+            border: none;
+            border-radius: 40px;
+            padding: 5px 16px;
+            float: right;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+        }
+        .checkbox-group {
+            text-align: left;
+            background: #0e0e16aa;
+            border-radius: 28px;
+            padding: 18px;
+            margin: 14px 0;
+        }
+        textarea, select, input[type="text"] {
+            background: #252534;
+            border: 1px solid #ff90ad;
+            color: white;
+            border-radius: 28px;
+            padding: 10px 16px;
+            width: 100%;
+            margin: 8px 0;
+            font-family: monospace;
+        }
+        .flashbang-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: white;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.05s;
+        }
+        .modal-jumpscare {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: black;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: flashEffect 0.2s 2;
+        }
+        @keyframes flashEffect {
+            0% { background: white; }
+            100% { background: black; }
+        }
+        .rating-stars { font-size: 2.5rem; cursor: pointer; letter-spacing: 5px; }
+        .jail-timer {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: #000000aa;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 60px;
+            margin: 15px 0;
+        }
+        .portal-sign {
+            background: rgba(0,0,0,0.8);
+            padding: 20px;
+            border-radius: 40px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #ff5555;
+            text-shadow: 0 0 5px red;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .portal-sign:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+<div class="game-container" id="appRoot"></div>
+
+<!-- SOUND ASSETS (preloaded) -->
+<audio id="clickSound" preload="auto">
+    <source src="https://www.soundjay.com/misc/sounds/button-click-01.mp3" type="audio/mpeg">
+</audio>
+<audio id="buzzerSound" preload="auto">
+    <source src="https://www.soundjay.com/misc/sounds/buzzer-or-wrong-answer-20582.mp3" type="audio/mpeg">
+</audio>
+<audio id="jumpscareSound" preload="auto">
+    <source src="https://www.orangefreesounds.com/wp-content/uploads/2021/09/Jump-scare-sound-effect.mp3" type="audio/mpeg">
+</audio>
+<audio id="backgroundTrack" loop preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+<audio id="checkmarkSound" preload="auto">
+    <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+</audio>
+<audio id="annoyingSiren" preload="auto">
+    <source src="https://www.soundjay.com/misc/sounds/air-raid-siren-02.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // ---------- STATE ----------
+    let currentView = "init";
+    let yesClickCount = 0;
+    let giftResultObj = null;
+    let boyfriendAnswers = {};
+    let enteredPasscode = "";
+    const CORRECT_CODE = "1234";
+    let jailInterval = null;
+    let jailRemainingSeconds = 120;
+    let jailActive = false;
+    let currentSiren = null;
+    let pendingCallbackAfterTrap = null;
+
+    // ---------- WORKING SOUNDS (unlocked after first interaction) ----------
+    let audioUnlocked = false;
+    function unlockAudio() {
+        if(audioUnlocked) return;
+        let dummy = new Audio();
+        dummy.play().catch(()=>{});
+        audioUnlocked = true;
+        // start background music
+        let bg = document.getElementById("backgroundTrack");
+        if(bg) { bg.volume = 0.2; bg.loop = true; bg.play().catch(e=>console.log("bg autoplay blocked")); }
+    }
+    function playSoundSafe(soundId, vol = 0.6, forceLoop = false) {
+        let el = document.getElementById(soundId);
+        if(el && audioUnlocked) {
+            let clone = el.cloneNode(true);
+            clone.volume = vol;
+            if(forceLoop) clone.loop = true;
+            clone.play().catch(e=>console.log("play error", e));
+            setTimeout(()=>clone.remove(), forceLoop ? 12000 : 3000);
+        }
+    }
+    function playCheckmark() { playSoundSafe("checkmarkSound", 0.8); }
+    function playSiren() {
+        if(currentSiren) { currentSiren.pause(); currentSiren.currentTime = 0; }
+        let siren = document.getElementById("annoyingSiren");
+        if(siren && audioUnlocked) {
+            let clone = siren.cloneNode(true);
+            clone.volume = 1.0;
+            clone.play().catch(e=>console.log("siren error"));
+            currentSiren = clone;
+            setTimeout(() => {
+                if(currentSiren) { currentSiren.pause(); currentSiren.currentTime = 0; currentSiren = null; }
+            }, 10000);
+        }
+    }
+    function playClick() { playSoundSafe("clickSound", 0.5); }
+    function playBuzzer() { playSoundSafe("buzzerSound", 0.8); }
+    function playJumpscare() { playSoundSafe("jumpscareSound", 0.9); }
+
+    // ---------- JUMPSCARE & FLASH ----------
+    function triggerJumpscare(callback) {
+        let div = document.createElement('div');
+        div.className = "modal-jumpscare";
+        div.innerHTML = `<span style="font-size:70px;color:red;">💀🔪 BOO ! 🔪💀</span>`;
+        document.body.appendChild(div);
+        playJumpscare();
+        setTimeout(() => { div.remove(); if(callback) callback(); }, 600);
+    }
+    function flashBangEffect() {
+        let flash = document.createElement('div');
+        flash.className = "flashbang-overlay";
+        flash.style.background = "white";
+        flash.style.opacity = "1";
+        document.body.appendChild(flash);
+        playClick();
+        setTimeout(()=>{ flash.style.opacity = "0"; setTimeout(()=>flash.remove(), 200); }, 80);
+    }
+
+    // ---------- 1/16 PORTAL TRAP SPAWNER ----------
+    function attemptSpawnPortalTrap(callbackIfNoTrap) {
+        let roll = Math.floor(Math.random() * 16);
+        if(roll === 0) {
+            pendingCallbackAfterTrap = callbackIfNoTrap;
+            currentView = "portalTrapSign";
+            render();
+            return true;
+        } else {
+            if(callbackIfNoTrap) callbackIfNoTrap();
+            return false;
+        }
+    }
+
+    const app = document.getElementById("appRoot");
+    function render() {
+        if(currentView === "init") renderInitYesNo();
+        else if(currentView === "loser") renderLoserScreen();
+        else if(currentView === "yesSequence") renderYesSequence();
+        else if(currentView === "passcodeEntry") renderPasscodeKeypad();
+        else if(currentView === "gifts") renderGiftSelection();
+        else if(currentView === "portalTrapSign") renderPortalTrapSign();
+        else if(currentView === "portalTrapJail") renderPortalTrapJail();
+        else if(currentView === "boyfriendApp") renderBoyfriendApp();
+        else if(currentView === "ratingFinal") renderRatingShare();
+    }
+
+    // ---------- YES / NO RAGE ----------
+    function renderInitYesNo() {
+        app.innerHTML = `
+            <div style="text-align:center;">
+                <h1>🎁 MYSTERY GIFT PORTAL 🎀</h1>
+                <p style="margin: 20px 0; font-size:1.2rem;">Do you want a magical surprise? 👇</p>
+                <div>
+                    <button class="btn btn-primary" id="yesBtnInit">✔ YES</button>
+                    <button class="btn btn-no" id="noBtnInit">✘ NO</button>
+                </div>
+                <div id="rageArea" style="margin-top: 45px;"></div>
+            </div>
+        `;
+        document.getElementById("yesBtnInit")?.addEventListener("click", () => {
+            playClick(); unlockAudio();
+            currentView = "yesSequence";
+            yesClickCount = 0;
+            render();
+        });
+        document.getElementById("noBtnInit")?.addEventListener("click", () => {
+            playClick(); unlockAudio(); playBuzzer();
+            currentView = "loser";
+            render();
+        });
+        let rageDiv = document.getElementById("rageArea");
+        rageDiv.innerHTML = `<div class="arrow-yes">⬅️⬅️⬅️ YES ONLY ⬅️⬅️⬅️</div><div><span class="circle-yes"></span><span style="margin-left:8px;">💖 PRESS YES YOU COWARD 💖</span></div>`;
+    }
+
+    function renderLoserScreen() {
+        app.innerHTML = `
+            <div>
+                <h1 style="color:#ff8888;">🤡 WHAT A LOSER 🤡</h1>
+                <div class="arrow-yes" style="font-size:2.8rem;">👉👉👉 YES IS RIGHT THERE 👈👈👈</div>
+                <div><span class="circle-yes"></span><span style="font-size:1.3rem;"> CLICK YES !!</span></div>
+                <button class="btn btn-primary" id="resetLoserBtn">🔁 GO BACK & PRESS YES</button>
+            </div>
+        `;
+        playBuzzer();
+        document.getElementById("resetLoserBtn")?.addEventListener("click", ()=>{
+            playClick(); currentView = "init"; render();
+        });
+    }
+
+    function renderYesSequence() {
+        if(yesClickCount >= 4) {
+            attemptSpawnPortalTrap(()=>{
+                currentView = "passcodeEntry";
+                enteredPasscode = "";
+                render();
+            });
+            return;
+        }
+        const messages = ["are you sure?", "🤨 are you REALLY sure?", "🙀 LAST CHANCE ... sure??", "💢 FINAL YES OR DIE? 💢"];
+        app.innerHTML = `
+            <div>
+                <h2>${messages[yesClickCount]}</h2>
+                <button class="btn btn-primary" id="yesAgainBtn">✔ YES I'M SURE</button>
+                <button class="btn btn-no" id="noAgainBtn">✘ NO (loser path)</button>
+                <div style="margin-top:30px;"><span class="circle-yes"></span> YES only</div>
+            </div>
+        `;
+        document.getElementById("yesAgainBtn")?.addEventListener("click", ()=>{
+            playClick(); yesClickCount++; render();
+        });
+        document.getElementById("noAgainBtn")?.addEventListener("click", ()=>{
+            playClick(); playBuzzer(); currentView = "loser"; render();
+        });
+    }
+
+    // PASSCODE KEYPAD (1234)
+    function renderPasscodeKeypad() {
+        const updateDots = () => {
+            let dotsDiv = document.getElementById("passcodeDots");
+            if(!dotsDiv) return;
+            dotsDiv.innerHTML = "";
+            for(let i=0; i<4; i++) {
+                let dot = document.createElement("div");
+                dot.className = "dot" + (i < enteredPasscode.length ? " filled" : "");
+                dotsDiv.appendChild(dot);
+            }
+        };
+        const handleDigit = (digit) => {
+            playClick();
+            if(enteredPasscode.length < 4) {
+                enteredPasscode += digit;
+                updateDots();
+                if(enteredPasscode.length === 4) {
+                    if(enteredPasscode === CORRECT_CODE) {
+                        attemptSpawnPortalTrap(()=>{
+                            currentView = "gifts";
+                            giftResultObj = null;
+                            render();
+                        });
+                    } else {
+                        playBuzzer();
+                        let errDiv = document.getElementById("keypadError");
+                        errDiv.innerText = "❌ Wrong passcode! Try 1234 ❌";
+                        setTimeout(()=>{ errDiv.innerText = ""; }, 1500);
+                        enteredPasscode = "";
+                        updateDots();
+                    }
+                }
+            }
+        };
+        const handleDelete = () => {
+            playClick();
+            if(enteredPasscode.length > 0) {
+                enteredPasscode = enteredPasscode.slice(0, -1);
+                updateDots();
+            }
+        };
+        app.innerHTML = `
+            <div>
+                <button class="close-btn" id="closePassBtn">✖ CLOSE</button>
+                <h2>🔐 ENTER PASSCODE 🔐</h2>
+                <p style="font-size:0.8rem;">4-digit code required</p>
+                <div class="passcode-dots" id="passcodeDots"></div>
+                <div class="keypad-container">
+                    <div class="keypad-grid">
+                        <button class="key-btn" data-digit="1">1</button>
+                        <button class="key-btn" data-digit="2">2</button>
+                        <button class="key-btn" data-digit="3">3</button>
+                        <button class="key-btn" data-digit="4">4</button>
+                        <button class="key-btn" data-digit="5">5</button>
+                        <button class="key-btn" data-digit="6">6</button>
+                        <button class="key-btn" data-digit="7">7</button>
+                        <button class="key-btn" data-digit="8">8</button>
+                        <button class="key-btn" data-digit="9">9</button>
+                        <button class="key-btn key-special" id="keyDelete">⌫ DEL</button>
+                        <button class="key-btn" data-digit="0">0</button>
+                        <button class="key-btn key-special" id="keyEnter">↵ ENTER</button>
+                    </div>
+                </div>
+                <div id="keypadError" class="pass-error"></div>
+            </div>
+        `;
+        updateDots();
+        document.querySelectorAll("[data-digit]").forEach(btn => {
+            btn.addEventListener("click", () => handleDigit(btn.dataset.digit));
+        });
+        document.getElementById("keyDelete")?.addEventListener("click", handleDelete);
+        document.getElementById("keyEnter")?.addEventListener("click", () => {
+            if(enteredPasscode.length === 4) {
+                if(enteredPasscode === CORRECT_CODE) {
+                    attemptSpawnPortalTrap(()=>{
+                        currentView = "gifts";
+                        giftResultObj = null;
+                        render();
+                    });
+                } else {
+                    playBuzzer();
+                    let errDiv = document.getElementById("keypadError");
+                    errDiv.innerText = "❌ Wrong passcode! 1234 required ❌";
+                    setTimeout(()=> errDiv.innerText = "", 1200);
+                    enteredPasscode = "";
+                    updateDots();
+                }
+            } else {
+                playBuzzer();
+                document.getElementById("keypadError").innerText = "❌ Enter 4 digits! ❌";
+                setTimeout(()=> document.getElementById("keypadError").innerText = "", 800);
+            }
+        });
+        document.getElementById("closePassBtn")?.addEventListener("click", () => {
+            playClick();
+            currentView = "init";
+            render();
+        });
+    }
+
+    // ---------- GIFT SHUFFLE (1/4 each) ----------
+    function renderGiftSelection() {
+        if(!giftResultObj) {
+            app.innerHTML = `<h2>🎁 SHUFFLING MYSTERY GIFTS 🎁</h2><div id="shuffleBox" style="font-size:2rem; margin:40px;">🌀🌀🌀</div><p style="font-size:0.8rem;">randomizing gifts...</p>`;
+            const giftNames = ["💎 BEING GOOD BOY FOR A WEEK", "📝 YOUR CHOICE · CHECKLIST", "💊 LET CRACK", "✉️ A LETTER · OLD ENGLISH LOVE"];
+            let interval = setInterval(()=>{
+                let rand = giftNames[Math.floor(Math.random()*giftNames.length)];
+                let sb = document.getElementById("shuffleBox");
+                if(sb) sb.innerHTML = `🎲 ${rand} 🎲`;
+                playClick();
+            }, 400);
+            setTimeout(()=>{
+                clearInterval(interval);
+                flashBangEffect();
+                let finalPick = Math.floor(Math.random() * 4);
+                const mapping = [
+                    { type: "goodBoy", title: "🐶 Being Good Boy for a week", desc: "You must obey & be a good boy 7 days." },
+                    { type: "yourChoice", title: "📋 Your Choice · Mommy Checklist", desc: "Pick your own tasks." },
+                    { type: "crack", title: "💊 LET CRACK", desc: "Crack leads to boyfriend application." },
+                    { type: "letter", title: "💌 Love Letter · Dostoyevsky & Shakespeare", desc: "Romantic memoir." }
+                ];
+                giftResultObj = mapping[finalPick];
+                showNormalGift();
+            }, 10000);
+        } else {
+            showNormalGift();
+        }
+    }
+
+    function showNormalGift() {
+        if(!giftResultObj) return;
+        if(giftResultObj.type === "goodBoy") {
+            app.innerHTML = `<div><h2>🐶 BEING GOOD BOY FOR A WEEK</h2><p>You must text good morning, obey daily tasks, and be adorable.</p><button class="btn btn-primary" id="continueBfApp">➡️ PROCEED TO BOYFRIEND APPLICATION</button></div>`;
+            document.getElementById("continueBfApp")?.addEventListener("click", ()=>{ playClick(); attemptSpawnPortalTrap(()=>{ currentView = "boyfriendApp"; render(); }); });
+        }
+        else if(giftResultObj.type === "yourChoice") {
+            app.innerHTML = `<div><h2>📋 YOUR CHOICE · CHECKLIST</h2><div class="checkbox-group"><label><input type="checkbox" id="mommyCb"> 📞 Calling you mommy?</label><br><label><input type="checkbox" id="morningCb"> 🌞 Saying goodmorning?</label><br><label>✏️ Others: <input type="text" id="otherText" placeholder="type request..."></label></div><button id="submitChoiceBtn" class="btn btn-primary">SUBMIT · REALLY?</button></div>`;
+            document.getElementById("submitChoiceBtn")?.addEventListener("click",()=>{
+                playClick();
+                let confirmMsg = document.createElement("div");
+                confirmMsg.innerText = "REALLY?";
+                app.appendChild(confirmMsg);
+                setTimeout(()=>{ attemptSpawnPortalTrap(()=>{ currentView = "boyfriendApp"; render(); }); }, 1000);
+            });
+        }
+        else if(giftResultObj.type === "crack") {
+            app.innerHTML = `<div><h2>💊 LET CRACK</h2><p>⚠️ REALLY? you clicked that ⚠️</p><button id="crackConfirmBtn" class="btn">CLICK AGAIN IF YOU DARE</button></div>`;
+            document.getElementById("crackConfirmBtn")?.addEventListener("click",()=>{ playClick(); attemptSpawnPortalTrap(()=>{ currentView = "boyfriendApp"; render(); }); });
+        }
+        else if(giftResultObj.type === "letter") {
+            let letterContent = `"Thou art the starre that guideth my midnight soul. Like Dostoyevsky's fevered devotion, and Shakespeare's sonnets, I hold thee in mine inmost heart. — With Neruda's fire and Burns' tender vow: I love thee to the depth and breadth and height my soul can reach."`;
+            app.innerHTML = `<div><h2>💌 MYSTERY LETTER</h2><p style="background:#2c2c44; padding:20px; border-radius:32px; font-style:italic;">${letterContent}</p><button id="letterNextBtn" class="btn btn-primary">💘 GO TO BOYFRIEND APP</button></div>`;
+            document.getElementById("letterNextBtn")?.addEventListener("click",()=>{ playClick(); attemptSpawnPortalTrap(()=>{ currentView = "boyfriendApp"; render(); }); });
+        }
+    }
+
+    // ---------- PORTAL TRAP: SIGN + JAIL ----------
+    function renderPortalTrapSign() {
+        app.innerHTML = `
+            <div>
+                <h2 style="color:#ff6666;">🌀 A MYSTERIOUS PORTAL APPEARS 🌀</h2>
+                <div class="portal-sign" id="portalSignClick">
+                    ⚠️ i dare you to click this loser! ⚠️
+                </div>
+                <p>click the sign above... if you're brave enough</p>
+                <button class="btn" id="ignorePortal">Ignore (skip trap)</button>
+            </div>
+        `;
+        document.getElementById("portalSignClick")?.addEventListener("click", ()=>{
+            playClick();
+            playBuzzer();
+            currentView = "portalTrapJail";
+            render();
+        });
+        document.getElementById("ignorePortal")?.addEventListener("click", ()=>{
+            playClick();
+            if(pendingCallbackAfterTrap) {
+                let cb = pendingCallbackAfterTrap;
+                pendingCallbackAfterTrap = null;
+                cb();
+            } else {
+                currentView = "boyfriendApp";
+                render();
+            }
+        });
+    }
+
+    function renderPortalTrapJail() {
+        if(!jailActive) {
+            jailActive = true;
+            jailRemainingSeconds = 120;
+            if(jailInterval) clearInterval(jailInterval);
+            jailInterval = setInterval(() => {
+                if(jailRemainingSeconds > 0 && currentView === "portalTrapJail") {
+                    jailRemainingSeconds--;
+                    let timerElem = document.getElementById("jailTimerDisplay");
+                    if(timerElem) {
+                        let mins = Math.floor(jailRemainingSeconds / 60);
+                        let secs = jailRemainingSeconds % 60;
+                        timerElem.innerText = `${mins}:${secs.toString().padStart(2,'0')}`;
+                    }
+                    if(jailRemainingSeconds <= 0) {
+                        clearInterval(jailInterval);
+                        jailActive = false;
+                        if(pendingCallbackAfterTrap) {
+                            let cb = pendingCallbackAfterTrap;
+                            pendingCallbackAfterTrap = null;
+                            cb();
+                        } else {
+                            currentView = "boyfriendApp";
+                            render();
+                        }
+                    }
+                } else if(currentView !== "portalTrapJail") {
+                    clearInterval(jailInterval);
+                }
+            }, 1000);
+        }
+        let minsLeft = Math.floor(jailRemainingSeconds / 60);
+        let secsLeft = jailRemainingSeconds % 60;
+        app.innerHTML = `
+            <div>
+                <h2 style="color:#ff77aa;">🌀 YOU FELL INTO THE PORTAL TRAP 🌀</h2>
+                <div class="jail-timer" id="jailTimerDisplay">${minsLeft}:${secsLeft.toString().padStart(2,'0')}</div>
+                <p style="margin: 20px 0; font-size: 1.3rem;">🔒 JAILED FOR 2 MINUTES 🔒</p>
+                <p>Answer correctly to escape early!</p>
+                <h3>What do I like to be called?</h3>
+                <div>
+                    <button class="btn" id="answerDaddy">Daddy</button>
+                    <button class="btn btn-no" id="answerAlfredo">Alfredo?</button>
+                    <button class="btn btn-no" id="answerGoodBoy">Good Boy?</button>
+                </div>
+                <div id="jailError" style="color:#ff8888; margin-top: 20px;"></div>
+                <div class="arrow-yes" style="font-size:1.8rem;">⚠️ ANSWER DADDY ⚠️</div>
+            </div>
+        `;
+        document.getElementById("answerDaddy")?.addEventListener("click", ()=>{
+            playClick();
+            playCheckmark();
+            clearInterval(jailInterval);
+            jailActive = false;
+            if(pendingCallbackAfterTrap) {
+                let cb = pendingCallbackAfterTrap;
+                pendingCallbackAfterTrap = null;
+                cb();
+            } else {
+                currentView = "boyfriendApp";
+                render();
+            }
+        });
+        document.getElementById("answerAlfredo")?.addEventListener("click", ()=>{
+            playBuzzer(); playSiren();
+            let errDiv = document.getElementById("jailError");
+            errDiv.innerHTML = "❌ WRONG! Alfredo? are you serious? ❌ +10 seconds!";
+            jailRemainingSeconds += 10;
+            setTimeout(()=>errDiv.innerHTML = "", 2000);
+        });
+        document.getElementById("answerGoodBoy")?.addEventListener("click", ()=>{
+            playBuzzer(); playSiren();
+            let errDiv = document.getElementById("jailError");
+            errDiv.innerHTML = "❌ WRONG! Good boy? That's not it ❌ +10 seconds!";
+            jailRemainingSeconds += 10;
+            setTimeout(()=>errDiv.innerHTML = "", 2000);
+        });
+    }
+
+    // ---------- BOYFRIEND APPLICATION ----------
+    function renderBoyfriendApp() {
+        if(jailInterval) clearInterval(jailInterval);
+        jailActive = false;
+        if(currentSiren) { currentSiren.pause(); currentSiren = null; }
+        app.innerHTML = `
+            <div style="max-height:65vh; overflow-y:auto; padding-right:6px;">
+                <button class="close-btn" id="closeBfBtn">✖ CLOSE</button>
+                <h2>💘 BOYFRIEND APPLICATION 💘</h2>
+                <p style="font-size:0.75rem;">Hello Kitty · Porsche GTR edition</p>
+                <div style="margin-top: 12px;">
+                    <label>📝 Why U? · Paragraph</label>
+                    <textarea id="whyU" rows="2" placeholder="Explain why you deserve..."></textarea>
+                    <label>📍 Where u think we gonna be in 10 years?</label>
+                    <select id="futureSelect">
+                        <option>Dead</option>
+                        <option>Tg W kids and shit</option>
+                        <option>Divorced</option>
+                        <option>As Friend</option>
+                    </select>
+                    <label>💖 Do you actually mess with me?</label>
+                    <div><button id="messYesBtn" class="btn" style="padding:6px 20px;">YES</button> <button id="messNoBtn" class="btn">NO</button></div>
+                    <div id="dynamicMessArea" style="margin: 12px 0; min-height: 70px;"></div>
+                </div>
+                <button id="submitBfAppBtn" class="btn btn-primary">✅ SUBMIT APPLICATION</button>
+            </div>
+        `;
+        document.getElementById("closeBfBtn")?.addEventListener("click", ()=>{ playClick(); alert("Application closed"); });
+        let messYes = document.getElementById("messYesBtn");
+        let messNo = document.getElementById("messNoBtn");
+        let dynamicArea = document.getElementById("dynamicMessArea");
+        messYes?.addEventListener("click", ()=>{
+            playClick();
+            dynamicArea.innerHTML = `<div>❓ You think i mess with you? <button id="thinkYesBtn" class="btn" style="padding:4px 12px;">YES</button> <button id="thinkNoBtn" class="btn" style="padding:4px 12px;">NO</button></div>`;
+            document.getElementById("thinkYesBtn")?.addEventListener("click",()=>{ playClick(); dynamicArea.innerHTML = `<span style="color:#ffb7c5;">I don't... just kidding 💖🥰</span>`; });
+            document.getElementById("thinkNoBtn")?.addEventListener("click",()=>{ playClick(); dynamicArea.innerHTML = `<span style="color:lightgreen;">aw somebody cares about me 🥺</span>`; });
+        });
+        messNo?.addEventListener("click", ()=>{ playClick(); dynamicArea.innerHTML = `<span style="color:pink;">😭 oh... okay sad noises</span>`; });
+        document.getElementById("submitBfAppBtn")?.addEventListener("click", ()=>{
+            playClick();
+            app.innerHTML = `<div><h2>✨ GOOD GIRL ✨</h2><p>Application accepted, sweet ragebait queen.</p><button id="rateNowBtn" class="btn btn-primary">⭐ RATE THE EXPERIENCE ⭐</button></div>`;
+            document.getElementById("rateNowBtn")?.addEventListener("click",()=>{ playClick(); attemptSpawnPortalTrap(()=>{ currentView = "ratingFinal"; render(); }); });
+        });
+    }
+
+    // RATING + SHARE + FINAL JUMPSCARE
+    function renderRatingShare() {
+        let ratingValue = 0;
+        app.innerHTML = `
+            <div>
+                <h2>⭐ RATE THIS MADNESS ⭐</h2>
+                <div class="rating-stars" id="starContainer">☆☆☆☆☆☆☆☆☆☆</div>
+                <p id="ratingDisplay">Click stars 1-10</p>
+                <button id="shareBtn" class="btn">📤 SHARE</button>
+                <button id="finalJumpBtn" class="btn-no">💀 FINAL JUMPSCARE 💀</button>
+            </div>
+        `;
+        let starsDiv = document.getElementById("starContainer");
+        for(let i=0; i<10; i++) {
+            let starSpan = document.createElement("span");
+            starSpan.innerText = "☆";
+            starSpan.style.cursor = "pointer";
+            starSpan.addEventListener("click", (()=>{ let val=i+1; ratingValue=val; let filled="★".repeat(val)+"☆".repeat(10-val); starsDiv.innerHTML=filled; document.getElementById("ratingDisplay").innerText=`Rating: ${val}/10`; renderRatingShare(); }) );
+            starsDiv.appendChild(starSpan);
+        }
+        document.getElementById("shareBtn")?.addEventListener("click", ()=>{ playClick(); alert("📱 SHARE this chaos!"); if(navigator.share) navigator.share({title:"Mystery Gift Rage Game"}); });
+        document.getElementById("finalJumpBtn")?.addEventListener("click", ()=>{ triggerJumpscare(()=>{ alert("💀 FINAL JUMPSCARE — YOU SURVIVED! 💀"); }); });
+    }
+
+    // FIRST CLICK UNLOCKS AUDIO + JUMPSCARE
+    document.body.addEventListener("click", ()=>{
+        unlockAudio();
+        if(!window._jumpscareTriggered){
+            window._jumpscareTriggered = true;
+            setTimeout(()=>{ triggerJumpscare(()=>{}); }, 100);
+        }
+    }, { once: false });
+    
+    render();
+</script>
+</body>
+</html>
